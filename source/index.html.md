@@ -2,12 +2,9 @@
 title: API Reference
 
 language_tabs:
-  - shell
-  - ruby
-  - python
+  - json
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -18,151 +15,109 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Loan API!
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+# Loans
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
-
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
+## Get Client info by SSN
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+{
+  "api": "sdf7s8dfysdhf8dsfs", 
+  "ssn": "12312312312"
+}
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "result": true, 
+  "code": 200, 
+  "info": {
+    "message": "OK",
+    "id": 645654,
+    "ssn": "12312312312",
+    "first_name": "John",
+    "last_name": "Smith",
+    "addr_street": "Palm Beach street",
+    "addr_zip": "12345",
+    "addr_city": "New York",
+    "tel": "+1234567890",
+    "email": "john.smith@example.com",
+    "account": "String|Account",
+    "paper_invoice": true,
+    "email_invoice": true,
+    "employer": "String",
+    "employment": "String",
+    "employment_start": "20-01-2012",
+    "job_type": "String",
+    "job_type_other": "String",
+    "job_title": "String",
+    "education": "String",
+    "education_other": "String",
+    "language": "String",
+    "gross_income": "String",
+    "net_income": "String",
+    "last_year_income": "String",
+    "expenses": "String",
+    "expenses_description": "String",
+    "loan_expenses": "String",
+    "living_cost": "String",
+    "home_ownership": "String",
+    "home_type": "String",
+    "second_home": false,
+    "credit_card": true,
+    "household_size": 40,
+    "dependents": 2,
+    "maritalstatus": "married",
+    "other_factors": "Text",
+    "other_info": "Text",
+    "loan_terms_accepted": true,
+    "data_authorization": true
+  }
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This endpoint retrieves information about customer by his SSN number.
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
+### Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+api_key | (required) If empty - user gets json response with error code 401 (unathorized) and message "You have to provide API key".
+ssn | (required) If empty - user get json response with error code 401 and message "You have to provide SSN number"
+
+## Post an application
+
+```json
+{
+  "api": "sdf7s8dfysdhf8dsfs", 
+  "ssn": "12312312312", 
+  "amount": 1000
+}
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "result": true, 
+  "code": 201, 
+  "info": {
+    "message": "OK", 
+    "status": "PENDING"
+  }
+}
+```
+
+This endpoint posts an application for a loan to server.
+
+### Parameters
+
+Parameter | Description
+--------- | -----------
+api | API key
+ssn | Customer's SSN code
+amount | (integer) An amount of loan
 
